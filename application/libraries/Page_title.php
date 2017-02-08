@@ -14,7 +14,7 @@ class Page_title {
 
         $this->pagetitle_open     = '<h1>';
 		$this->pagetitle_close    = '</h1>';
-		$this->pagetitle_el_open  = '<small><i class="fa fa-angle-double-right"></i> ';
+		$this->pagetitle_el_open  = '<small><i class="ace-icon fa fa-angle-double-right"></i> ';
 		$this->pagetitle_el_close = '</small>';
     }
 
