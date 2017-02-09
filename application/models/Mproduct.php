@@ -22,7 +22,7 @@ class Mproduct extends CI_Model
 			$this->db->where('product_item.ps_ID', $this->input->get('category'));
 
 		if($this->input->get('query') != '')
-			$this->db->like('product_item.name', $this->input->get('query'))
+			$this->db->like('product_item.product_name', $this->input->get('query'))
 					 ->or_like('product_item.code', $this->input->get('query'));
 
 		$this->db->order_by('item_ID', 'desc');
@@ -96,6 +96,62 @@ class Mproduct extends CI_Model
 		} else {
 			$this->template->alert(
 				' Failed to saving data.', 
+				array('type' => 'warning','icon' => 'times')
+			);
+		}
+	}
+
+	public function delete($param = 0)
+	{
+		$this->db->delete('product_item', array('item_ID' => $param));
+
+		if($this->db->affected_rows())
+		{
+			$this->template->alert(
+				' Product deleted.', 
+				array('type' => 'success','icon' => 'check')
+			);
+		} else {
+			$this->template->alert(
+				' Failed to delete data.', 
+				array('type' => 'warning','icon' => 'times')
+			);
+		}
+	}
+
+	public function multiple_delete()
+	{
+		if(is_array($this->input->post('products')))
+		{
+			foreach($this->input->post('products') as $key => $value)
+				$this->db->delete('product_item', array('item_ID' => $value));
+
+			$this->template->alert(
+				' Product deleted.', 
+				array('type' => 'success','icon' => 'check')
+			);
+		} else {
+			$this->template->alert(
+				' Empty selected data.', 
+				array('type' => 'warning','icon' => 'times')
+			);
+		}
+	}
+
+	public function set_status($param = '')
+	{
+		if(is_array($this->input->post('products')))
+		{
+			foreach($this->input->post('products') as $key => $value)
+				$this->db->update('product_item', array('status' => $param), array('item_ID' => $value));
+
+			$this->template->alert(
+				' Product changed.', 
+				array('type' => 'success','icon' => 'check')
+			);
+		} else {
+			$this->template->alert(
+				' Empty selected data.', 
 				array('type' => 'warning','icon' => 'times')
 			);
 		}

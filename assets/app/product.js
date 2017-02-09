@@ -3,39 +3,38 @@
 * Kumpulan javascript module Master
 * @author Vicky Nitinrgoro <pkpvicky@gmail.com>
 * @package Jquery, Form Validation, Bootstraps JS,Bootraps timepicker
-* @see https://github.com/nitinegoro/spa-and-beauty
+* @see https://github.com/nitinegoro/billing-cafe
 */
 
 jQuery(function($) {
+	
+	$(".btn-print").printPage();
 
 	// modal delete user
-	$('.open-room-delete').click( function() {
+	$('.open-product-delete').click( function() {
 		$('#modal-delete').modal('show');
-		$('#button-delete').attr('href', base_url + '/master/deleteroom/' + $(this).data('id'));
+		$('#button-delete').attr('href', base_url + '/product/delete/' + $(this).data('id'));
 	});
 
 	// open delete multiple
-	$('.room-delete-multiple').click( function() {
+	$('.product-delete-multiple').click( function() {
 		if( $('input[type=checkbox]').is(':checked') != '' ) {
 			$('#modal-delete-multiple').modal('show');
+		} else {
+			$.notify({
+				title: '<strong><i class="fa fa-warning"></i> Warning!</strong><br>',
+				message: 'Empty data selected.'
+			},{ 
+				type: 'warning',
+				animate: {
+					enter: 'animated bounceIn',
+					exit: 'animated bounceOut'
+				}
+			});
 		}
 	});
 
-	// time Picker
-	$('#timepicker1').timepicker({
-		minuteStep: 1,
-		showSeconds: true,
-		showMeridian: false,
-		disableFocus: false,
-		icons: {
-			up: 'fa fa-chevron-up',
-			down: 'fa fa-chevron-down'
-		}
-	}).on('focus', function() {
-		$('#timepicker1').timepicker('showWidget');
-	}).next().on(ace.click_event, function(){
-		$(this).prev().focus();
-	});
+
 
 
 	// modal delete package

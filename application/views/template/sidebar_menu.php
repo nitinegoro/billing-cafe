@@ -29,10 +29,10 @@
 						<b class="arrow"></b>
 					</li>
 
-					<li class="<?php echo active_link_multiple(array('product','sell_category')); ?> hover">
+					<li class="<?php echo active_link_multiple(array('product','tables')); ?> hover">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-database"></i>
-							<span class="menu-text"> Master Data</span>
+							<span class="menu-text"> Data Management</span>
 
 							<b class="arrow fa fa-angle-down"></b>
 						</a>
@@ -47,16 +47,16 @@
 								<b class="arrow"></b>
 							</li>
 
-							<li class="hover <?php echo active_link_method('index','master'); ?> ">
-								<a href="<?php echo site_url('') ?>">
+							<li class="hover <?php echo active_link_controller('sell_category'); ?> ">
+								<a href="<?php echo site_url('sell_category') ?>">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Product Category
 								</a>
 								<b class="arrow"></b>
 							</li>
 
-							<li class="hover <?php echo active_link_method('package', 'master'); ?>">
-								<a href="<?php echo site_url('/package') ?>">
+							<li class="hover <?php echo active_link_controller('tables'); ?>">
+								<a href="<?php echo site_url('tables') ?>">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Tables
 								</a>

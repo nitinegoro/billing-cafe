@@ -5,7 +5,7 @@
 			<a href="<?php echo site_url('product/create') ?>" class="btn btn-white btn-default btn-bold btn-sm btn-round">
 				<i class="ace-icon fa fa-plus gray"></i> Add New Record
 			</a>
-			<a href="<?php echo site_url('product/get_print') ?>" class="btn btn-white btn-default btn-bold btn-sm btn-round">
+			<a href="<?php echo site_url('product/get_print') ?>" class="btn-print btn btn-white btn-default btn-bold btn-sm btn-round">
 				<i class="ace-icon fa fa-print gray"></i> Print
 			</a>
 			<a href="<?php echo site_url('product/import') ?>" class="btn btn-white btn-default btn-bold btn-sm btn-round">
@@ -80,7 +80,7 @@
 	?>
 	</div>
 	<div class="col-md-12">
-		<?php echo form_open(site_url('master/bulkroom'));  ?>
+		<?php echo form_open(site_url('product/bulk_action'));  ?>
 		<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
@@ -109,7 +109,7 @@
 				<tr>
 					<td>
 						<label class="pos-rel">
-							<input type="checkbox" class="ace" name="products[]" value="" /> <span class="lbl"></span>
+							<input type="checkbox" class="ace" name="products[]" value="<?php echo $row->item_ID; ?>" /> <span class="lbl"></span>
 						</label>
 					</td>
 					<td class="text-center"><?php echo $row->code; ?></td>
@@ -129,7 +129,7 @@
 							<a class="green" href="<?php echo site_url("product/update/{$row->item_ID}") ?>" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Update">
 									<i class="ace-icon fa fa-pencil bigger-130"></i>
 							</a>
-							<a class="red open-room-delete" data-id="" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Delete">
+							<a class="red open-product-delete" data-id="<?php echo $row->item_ID; ?>" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Delete">
 								<i class="ace-icon fa fa-trash-o bigger-130"></i>
 							</a>
 						</div>
@@ -149,10 +149,13 @@
 				</th>
 				<th colspan="7">
 					<small style="padding-right:20px;">With selected :</small>
-					<button name="action" value="set_update" class="btn btn-minier btn-white btn-round btn-primary" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Update">
-						<i class="ace-icon fa fa-pencil"></i> <small> Update</small>
+					<button name="action" value="set_available" class="btn btn-minier btn-white btn-round btn-success" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Set Available Status">
+						<i class="ace-icon fa fa-check"></i> <small> Available</small>
 					</button>
-					<a class="btn btn-minier btn-white btn-round btn-danger room-delete-multiple" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Delete">
+					<button name="action" value="set_unavailable" class="btn btn-minier btn-white btn-round btn-warning" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Set Unavailable Status">
+						<i class="ace-icon fa fa-times"></i> <small> Unavailable</small>
+					</button>
+					<a class="btn btn-minier btn-white btn-round btn-danger product-delete-multiple" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Delete">
 						<i class="ace-icon fa fa-trash-o"></i> <small> Delete</small>
 					</a>
 					<label class="pull-right">
@@ -167,7 +170,7 @@
 				<div class="modal-content">
 					<div class="modal-header bg-delete">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h5 class="modal-title"><i class="fa fa-question-circle"></i> Delete Room</h5>
+						<h5 class="modal-title"><i class="fa fa-question-circle"></i> Delete Product Selected </h5>
 					</div>
 			<div class="modal-body">
 				<p class="bigger-110 bolder center grey">
@@ -192,7 +195,7 @@
 		<div class="modal-content">
 			<div class="modal-header bg-delete">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h5 class="modal-title"><i class="fa fa-question-circle"></i> Delete Room</h5>
+				<h5 class="modal-title"><i class="fa fa-question-circle"></i> Delete Product</h5>
 			</div>
 			<div class="modal-body">
 				<p class="bigger-110 bolder center grey">

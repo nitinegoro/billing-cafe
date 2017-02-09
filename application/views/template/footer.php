@@ -57,22 +57,15 @@
 		<script src="<?php echo base_url('assets/js/bootstrap-datetimepicker.min.js') ?>"></script>
 		<script src="<?php echo base_url('assets/js/bootstrap-datepicker.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/js/bootstrap-timepicker.min.js'); ?>"></script>
-		<script src="<?php echo base_url('assets/js/livestamp.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/bootstrap-notify.min.js'); ?>"></script>
 		<script data-pace-options='{ "elements": { "selectors": ["body"] }, "startOnPageLoad": true, "ajax": true }' src="<?php echo base_url('assets/js/pace.min.js'); ?>"></script>
-    	<script type="text/javascript" src="<?php echo base_url('assets/pass-strength/src/i18n.js'); ?>"></script>
-    	<script type="text/javascript" src="<?php echo base_url('assets/pass-strength/dist/pwstrength-bootstrap.min.js'); ?>"></script>
-    	<script type="text/javascript" src="<?php echo base_url('assets/pass-strength/pwstrength.js'); ?>"></script>
     	<!-- <script type="text/javascript" src="<?php echo base_url('assets/js/ajaxFileUpload.js'); ?>"></script> -->
 		<script src="<?php echo base_url('assets/js/jquery.dataTables.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/js/jquery.dataTables.bootstrap.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/js/dataTables.buttons.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/js/dataTables.select.min.js'); ?>"></script>
-    	<script src="<?php echo base_url('assets/js/holder.min.js') ?>"></script>
 		<script src="<?php echo base_url('assets/js/jquery.easypiechart.min.js') ?>"></script>
 		<script src="<?php echo base_url('assets/js/jquery.sparkline.index.min.js') ?>"></script>
-		<script src="<?php echo base_url('assets/js/jquery.flot.min.js') ?>"></script>
-		<script src="<?php echo base_url('assets/js/jquery.flot.pie.min.js') ?>"></script>
-		<script src="<?php echo base_url('assets/js/jquery.flot.resize.min.js') ?>"></script>
 		<script src="<?php echo base_url('assets/js/jquery.printPage.js') ?>"></script>
 		<script src="<?php echo base_url('assets/app/backend.js'); ?>"></script>
 		<script type="text/javascript"> 
