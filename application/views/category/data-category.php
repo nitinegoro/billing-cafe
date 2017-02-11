@@ -2,17 +2,8 @@
 	<div class="col-md-6 col-md-offset-3"><?php echo $this->session->flashdata('alert'); ?></div>
 	<div class="col-md-12" style="margin-bottom: 20px;">
 		<div class="col-md-7">
-			<a href="<?php echo site_url('product/create') ?>" class="btn btn-white btn-default btn-bold btn-sm btn-round">
+			<a href="<?php echo site_url('sell_category/create') ?>" class="btn btn-white btn-default btn-bold btn-sm btn-round">
 				<i class="ace-icon fa fa-plus gray"></i> Add New Record
-			</a>
-			<a href="<?php echo site_url('product/get_print') ?>" class="btn-print btn btn-white btn-default btn-bold btn-sm btn-round">
-				<i class="ace-icon glyphicon glyphicon-print gray"></i> Print
-			</a>
-			<a href="<?php echo site_url('product/import') ?>" class="btn btn-white btn-default btn-bold btn-sm btn-round">
-				<i class="ace-icon glyphicon glyphicon-open-file gray"></i> Import Excel Data
-			</a>
-			<a href="<?php echo site_url('product/export') ?>" class="btn btn-white btn-default btn-bold btn-sm btn-round">
-				<i class="ace-icon fa fa-file-excel-o gray"></i> Export To Excel
 			</a>
 			<div class="space-4"></div>
 		</div>
@@ -36,36 +27,6 @@
 			<label> per page </label>
 			<div class="space-4"></div>
 		</div>
-		<div class="col-md-2">
-			<select name="category" id="input" class="select-page col-md-12">
-				<option value="">-- Select Category --</option>
-		      	<?php	
-		      	/**
-		      	 * Loop Category Sales
-		      	 *
-		      	 **/
-		      	foreach($this->product->category() as $row) :
-		      	?>
-					<option value="<?php echo $row->ps_ID; ?>" <?php if($this->input->get('category')==$row->ps_ID) echo "selected"; ?>><?php echo $row->product_sales; ?></option>
-		      	<?php  
-		      	endforeach;
-		      	?>
-			</select>
-			<div class="space-4"></div>
-		</div>
-		<div class="col-md-2">
-			<select name="status" id="input" class="select-page col-md-12">
-				<option value="">-- Product Status --</option>
-				<option value="available" <?php if($this->input->get('status')=='available') echo "selected"; ?>>Available</option>
-				<option value="unavailable" <?php if($this->input->get('status')=='unavailable') echo "selected"; ?>>Unavailable</option>
-			</select>
-			<div class="space-4"></div>
-		</div>
-		<div class="col-md-3">
-			<button class="btn btn-white btn-default btn-bold btn-sm btn-round"><i class="fa fa-filter"></i> Filter</button>
-			<a href="<?php echo site_url('product') ?>" class="btn btn-white btn-default btn-bold btn-sm btn-round"><i class="fa fa-times"></i> Reset</a>
-			<div class="space-4"></div>
-		</div>
 		<div class="col-md-3 pull-right">
 			<div class="input-group">
 				<input class="form-control input-sm" name="query" type="text" placeholder="Search..." value="<?php echo $this->input->get('query') ?>" />
@@ -80,7 +41,7 @@
 	?>
 	</div>
 	<div class="col-md-12">
-		<?php echo form_open(site_url('product/bulk_action'));  ?>
+		<?php echo form_open(site_url('sell_category/bulk_action'));  ?>
 		<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
@@ -89,12 +50,9 @@
 							<input type="checkbox" class="ace" /> <span class="lbl"></span>
 						</label>
 					</th>
-					<th width="120" class="text-center">Code</th>
-					<th class="text-center">Product Name</th>
-					<th class="text-center">Category</th>
-					<th class="text-center" width="300">Description</th>
-					<th class="text-center">Price</th>
-					<th class="text-center">Status</th>
+					<th class="text-center">Category Name</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Product</th>
 					<th width="80" class="text-center">Actions</th>
 				</tr>
 			</thead>
@@ -104,32 +62,23 @@
 			 * Loop Product Item
 			 *
 			 **/
-			foreach($product as $row) :
+			foreach($category as $row) :
 			?>
 				<tr>
 					<td>
 						<label class="pos-rel">
-							<input type="checkbox" class="ace" name="products[]" value="<?php echo $row->item_ID; ?>" /> <span class="lbl"></span>
+							<input type="checkbox" class="ace" name="sales[]" value="<?php echo $row->ps_ID; ?>" /> <span class="lbl"></span>
 						</label>
 					</td>
-					<td class="text-center"><?php echo $row->code; ?></td>
-					<td><?php echo $row->product_name; ?></td>
 					<td><?php echo $row->product_sales; ?></td>
-					<td><small><?php echo $row->description_product; ?></small></td>
-					<td width="150" class="text-center">Rp. <?php echo number_format($row->price); ?></td>
-					<td class="text-center">
-						<?php if($row->status=='available') : ?>
-							<span class="label label-success">Available</span>
-						<?php else : ?>
-							<span class="label label-warning">Unavailable</span>
-						<?php endif; ?>
-					</td>
+					<td><?php echo $row->description_sales; ?></td>
+					<td class="text-center"><?php echo $this->db->get_where('product_item', array('ps_ID' => $row->ps_ID))->num_rows(); ?></td>
 					<td class="text-center">
 						<div class="hidden-sm hidden-xs action-buttons">
-							<a class="green" href="<?php echo site_url("product/update/{$row->item_ID}") ?>" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Update">
+							<a class="green" href="<?php echo site_url("sell_category/update/{$row->ps_ID}") ?>" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Update">
 									<i class="ace-icon fa fa-pencil bigger-130"></i>
 							</a>
-							<a class="red open-product-delete" data-id="<?php echo $row->item_ID; ?>" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Delete">
+							<a class="red open-category-delete" data-id="<?php echo $row->ps_ID; ?>" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Delete">
 								<i class="ace-icon fa fa-trash-o bigger-130"></i>
 							</a>
 						</div>
@@ -149,17 +98,14 @@
 				</th>
 				<th colspan="7">
 					<small style="padding-right:20px;">With selected :</small>
-					<button name="action" value="set_available" class="btn btn-minier btn-white btn-round btn-success" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Set Available Status">
-						<i class="ace-icon fa fa-check"></i> <small> Available</small>
+					<button name="action" value="set_update" class="btn btn-minier btn-white btn-round btn-primary" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Update">
+						<i class="ace-icon fa fa-pencil"></i> <small> Update</small>
 					</button>
-					<button name="action" value="set_unavailable" class="btn btn-minier btn-white btn-round btn-warning" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Set Unavailable Status">
-						<i class="ace-icon fa fa-times"></i> <small> Unavailable</small>
-					</button>
-					<a class="btn btn-minier btn-white btn-round btn-danger product-delete-multiple" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Delete">
+					<a class="btn btn-minier btn-white btn-round btn-danger category-delete-multiple" data-rel="popover" data-trigger="hover" data-placement="top" data-content="Delete">
 						<i class="ace-icon fa fa-trash-o"></i> <small> Delete</small>
 					</a>
 					<label class="pull-right">
-						<small><i><?php echo count($product) ?> from <?php echo $num_product; ?> data.</i></small>
+						<small><i><?php echo count($category) ?> from <?php echo $num_category; ?> data.</i></small>
 					</label>
 				</th>
 			</tr>
@@ -170,7 +116,7 @@
 				<div class="modal-content">
 					<div class="modal-header bg-delete">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h5 class="modal-title"><i class="fa fa-question-circle"></i> Delete Product Selected </h5>
+						<h5 class="modal-title"><i class="fa fa-question-circle"></i> Delete Category Selected </h5>
 					</div>
 			<div class="modal-body">
 				<p class="bigger-110 bolder center grey">
@@ -195,7 +141,7 @@
 		<div class="modal-content">
 			<div class="modal-header bg-delete">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h5 class="modal-title"><i class="fa fa-question-circle"></i> Delete Product</h5>
+				<h5 class="modal-title"><i class="fa fa-question-circle"></i> Delete Category</h5>
 			</div>
 			<div class="modal-body">
 				<p class="bigger-110 bolder center grey">

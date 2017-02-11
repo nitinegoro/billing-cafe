@@ -24,3 +24,38 @@
 		"menu":"1"
 	}
 ]
+
+
+[
+
+	{
+		"dashboard": [
+			"read":"1",
+		]
+	}
+]
+
+[
+	{
+		"dashboard": [
+			"create":"1",
+			"read":"1",
+			"update":"1",
+			"delete":"1"
+		]
+	}
+]
+
+{"dashboard":["on","read"],"entry_order":["on"],"transaction":["on"],"product_item":["on","off"],"product_category":["on"]}
+////
+[
+	{
+		"component":"category",
+		"create":"1",
+		"read":"1",
+		"update":"1",
+		"delete":"1"
+	},
+
+	{"component":"comment","create":"0","read":"0","update":"0","delete":"0"},{"component":"component","create":"0","read":"0","update":"0","delete":"0"},{"component":"contact","create":"0","read":"0","update":"0","delete":"0"},{"component":"gallery","create":"1","read":"1","update":"1","delete":"1"},{"component":"home","create":"1","read":"1","update":"1","delete":"1"},{"component":"library","create":"0","read":"0","update":"0","delete":"0"},{"component":"menumanager","create":"0","read":"0","update":"0","delete":"0"},{"component":"oauth","create":"0","read":"0","update":"0","delete":"0"},{"component":"pages","create":"1","read":"1","update":"1","delete":"1"},{"component":"post","create":"1","read":"1","update":"1","delete":"1"},{"component":"setting","create":"0","read":"0","update":"0","delete":"0"},{"component":"tag","create":"1","read":"1","update":"1","delete":"1"},
+	{"component":"theme","create":"0","read":"0","update":"0","delete":"0"},{"component":"user","create":"0","read":"1","update":"1","delete":"1"}]

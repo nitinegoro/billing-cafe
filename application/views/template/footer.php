@@ -4,12 +4,12 @@
 			</div><!-- /.main-content -->
 
 			<div class="footer">
-				<div class="footer-inner">
+				<div class="footer-inner" style="padding-top: 20px;">
 					<div class="footer-content">
-						<small class="bigger-30">
-							Copyright &copy; <?php echo date('Y') ?>
-							<span class="blue bolder">Teitra Mega</span> All Rights reserved
-						</small>
+												Copyright &copy; <?php echo date('Y') ?>
+							<span class="blue bolder">Teitra Mega</span> All Rights reserved <br>
+							<small><i>Jl. Horman Maddati No. 23, Pangkalpinang, Telp : (0717) –  422528 | 0812 7441 5660 </i></small>
+						
 					</div>
 				</div>
 			</div>

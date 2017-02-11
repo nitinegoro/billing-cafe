@@ -21,15 +21,23 @@
 						<b class="arrow"></b>
 					</li>
 
+					<li class="<?php echo active_link_controller('entry'); ?> hover">
+						<a href="<?php echo site_url('entry') ?>">
+							<i class="menu-icon glyphicon glyphicon-edit"></i>
+							<span class="menu-text"> Entry Order </span>
+						</a>
+						<b class="arrow"></b>
+					</li>
+
 					<li class="<?php echo active_link_controller('transaction'); ?> hover">
 						<a href="<?php echo site_url('transaction') ?>">
-							<i class="menu-icon fa fa-exchange"></i>
+							<i class="menu-icon glyphicon glyphicon-transfer"></i>
 							<span class="menu-text"> Transaction </span>
 						</a>
 						<b class="arrow"></b>
 					</li>
 
-					<li class="<?php echo active_link_multiple(array('product','tables')); ?> hover">
+					<li class="<?php echo active_link_multiple(array('product','sell_category')); ?> hover">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-database"></i>
 							<span class="menu-text"> Data Management</span>
@@ -38,15 +46,13 @@
 						</a>
 						<b class="arrow"></b>
 						<ul class="submenu">
-
 							<li class="hover <?php echo active_link_controller('product'); ?> ">
 								<a href="<?php echo site_url('product') ?>">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Product Sales
+									Product Item
 								</a>
 								<b class="arrow"></b>
 							</li>
-
 							<li class="hover <?php echo active_link_controller('sell_category'); ?> ">
 								<a href="<?php echo site_url('sell_category') ?>">
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -54,23 +60,33 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
+						</ul>
+					</li>
 
-							<li class="hover <?php echo active_link_controller('tables'); ?>">
-								<a href="<?php echo site_url('tables') ?>">
+					<li class="<?php echo active_link_multiple(array('report_transactions','cash')); ?> hover">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-bar-chart"></i>
+							<span class="menu-text"> Report Data</span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="hover <?php echo active_link_controller('report_transactions'); ?> ">
+								<a href="<?php echo site_url('report_transactions') ?>">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Tables
+									Transactions
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<li class="hover <?php echo active_link_controller('cash'); ?> ">
+								<a href="">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Rekap Pengeluaran
 								</a>
 								<b class="arrow"></b>
 							</li>
 						</ul>
-					</li>
-
-					<li class="<?php echo active_link_controller('transaction'); ?> hover">
-						<a href="<?php echo site_url('transaction') ?>">
-							<i class="menu-icon fa fa-bar-chart"></i>
-							<span class="menu-text"> Report Transaction </span>
-						</a>
-						<b class="arrow"></b>
 					</li>
 
 					<li class="hover <?php echo active_link_controller('user').active_link_controller('setting') ?>">

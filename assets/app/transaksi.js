@@ -3,7 +3,7 @@
 * Kumpulan javascript module transaksi
 * @author Vicky Nitinrgoro <pkpvicky@gmail.com>
 * @package Jquery, Form Validation, Bootstraps JS,
-* @see https://github.com/nitinegoro/spa-and-beauty
+* @see https://github.com/nitinegoro/billing-cafe
 */
 
 jQuery(function($) {

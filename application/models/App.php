@@ -52,7 +52,7 @@ class App extends CI_Model
 	{
 		if(is_string($name) OR $name != '')
 		{
-			$query = $this->db->query("UPDATE tb_options SET option_value = ? WHERE option_name = ?", array($value, $name));
+			$query = $this->db->query("UPDATE options SET option_value = ? WHERE option_name = ?", array($value, $name));
 			return $this->db->affected_rows();
 		} else {
 			return false;

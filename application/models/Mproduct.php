@@ -11,7 +11,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mproduct extends CI_Model 
 {
-	public function get_all($limit = 20, $offset = 0, $type = 'result')
+	public function __construct()
+	{
+		parent::__construct();
+		ini_set('max_execution_time', 3000); 
+	}
+	public function get_all($limit = 10, $offset = 0, $type = 'result')
 	{
 		$this->db->join('product_sales', 'product_item.ps_ID = product_sales.ps_ID', 'left');
 

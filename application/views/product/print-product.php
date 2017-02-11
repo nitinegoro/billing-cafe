@@ -15,7 +15,7 @@ $now = new DateTime(date('Y-m-d H:i:s'));
       </div>
    </div>
    <div class="content" style="margin-top: 5px; margin-bottom: 30px; text-align: center; text-transform: uppercase;">
-      <h3 style="font-family: 'Roboto Condensed', sans-serif; font-size:1.2em; font-weight: 500">Product Sales</h3>
+      <h3 style="font-family: 'Roboto Condensed', sans-serif; font-size:1.2em; font-weight: 500">Product Item</h3>
    </div>
    <div class="content">
       <table class="gridtable" width="100%">

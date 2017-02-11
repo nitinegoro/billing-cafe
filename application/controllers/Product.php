@@ -44,9 +44,9 @@ class Product extends Application
 
 	public function index()
 	{
-		$this->breadcrumbs->unshift(2, 'Product Sales', '#');
+		$this->breadcrumbs->unshift(2, 'Product Item', '#');
 
-		$this->page_title->push('Data Management', 'Product Sales');
+		$this->page_title->push('Data Management', 'Product Item');
 
 		// set pagination
 		$config = $this->template->pagination_list();
@@ -55,13 +55,13 @@ class Product extends Application
 			"product?per_page={$this->per_page}&status={$this->status}&category={$this->category}&query={$this->query}"
 		);
 
-		$config['per_page'] = (!$this->input->get('per_page')) ? 20 : $this->input->get('per_page');
+		$config['per_page'] = (!$this->input->get('per_page')) ? 10 : $this->input->get('per_page');
 		$config['total_rows'] = $this->product->get_all(null, null, 'num');
 
 		$this->pagination->initialize($config);
 
 		$this->data = array(
-			'title' => "Product Sales",
+			'title' => "Product Item",
 			'breadcrumb' => $this->breadcrumbs->show(),
 			'page_title' => $this->page_title->show(),
 			'js' => $this->load->get_js_files(),
@@ -73,9 +73,9 @@ class Product extends Application
 
 	public function create()
 	{
-		$this->breadcrumbs->unshift(2, 'Add Product Sales', 'product');
+		$this->breadcrumbs->unshift(2, 'Add Product Item', 'product');
 
-		$this->page_title->push('Data Management', 'Add Product Sales');
+		$this->page_title->push('Data Management', 'Add Product Item');
 
         $this->form_validation->set_rules('code', 'Product Code', 'trim|callback_validate_code');
         $this->form_validation->set_rules('item_ID', 'Item ID', 'trim');
@@ -92,7 +92,7 @@ class Product extends Application
         } 
 
 		$this->data = array(
-			'title' => "Add Product Sales",
+			'title' => "Add Product Item",
 			'breadcrumb' => $this->breadcrumbs->show(),
 			'page_title' => $this->page_title->show(),
 			'js' => $this->load->get_js_files(),
@@ -102,9 +102,9 @@ class Product extends Application
 
 	public function update($param = 0)
 	{
-		$this->breadcrumbs->unshift(2, 'Update Product Sales', 'product');
+		$this->breadcrumbs->unshift(2, 'Update Product Item', 'product');
 
-		$this->page_title->push('Data Management', 'Update Product Sales');
+		$this->page_title->push('Data Management', 'Update Product Item');
 
         $this->form_validation->set_rules('code', 'Product Code', 'trim|callback_validate_code');
         $this->form_validation->set_rules('item_ID', 'Item ID', 'trim');
@@ -121,7 +121,7 @@ class Product extends Application
         } 
 
 		$this->data = array(
-			'title' => "Update Product Sales",
+			'title' => "Update Product Item",
 			'breadcrumb' => $this->breadcrumbs->show(),
 			'page_title' => $this->page_title->show(),
 			'js' => $this->load->get_js_files(),
@@ -208,7 +208,7 @@ class Product extends Application
 	{
 		if($this->product->check_code() == TRUE)
 		{
-			$this->form_validation->set_message('validate_code', 'Sorry! Product Code in use.');
+			$this->form_validation->set_message('validate_code', 'Sorry! Product Code already in use.');
 			return false;
 		} else {
 			return true;

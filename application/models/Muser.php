@@ -5,7 +5,7 @@ class Muser extends CI_Model {
 
 	public function get_all($limit = 20, $offset = 0, $type = 'result')
 	{
-		$this->db->join('tb_role_access', 'tb_users.role_id = tb_role_access.role_id', 'left');
+		$this->db->join('user_role_access', 'users.role_id = user_role_access.role_id', 'left');
 		// searching fields data
 		//$this->db->where_not_in('user_id', 1);
 		
@@ -16,22 +16,36 @@ class Muser extends CI_Model {
 
 		if($type == 'result')
 		{
-			return $this->db->get('tb_users', $limit, $offset)->result();
+			return $this->db->get('users', $limit, $offset)->result();
 		} else {
-			return $this->db->get('tb_users')->num_rows();
+			return $this->db->get('users')->num_rows();
 		}
 	}
 
 	public function get($param = 0)
 	{
-		$query = $this->db->query("
-			SELECT tb_users.*, tb_role_access.* FROM tb_users 
-			LEFT JOIN tb_role_access ON tb_users.role_id = tb_role_access.role_id
-			WHERE tb_users.user_id = ? ", array($param));
-
-		return $query->row();
+		return $this->db->get_where('users', array('user_ID' => $param))->row();
 	}
 
+	/**
+	 * Cek Validasi Kode Produk
+	 *
+	 * @return Bolean
+	 **/
+	public function check()
+	{
+		if($this->input->post('user_ID') != '')
+		{
+			$get = $this->get($this->input->post('user_ID'));
+
+			$this->db->where('user_ID', $this->input->post('user_ID'))
+					 ->where_not_in('username', $get->username);			
+		} else {
+			$this->db->where('username', $this->input->post('username'));	
+		}
+
+		return $this->db->get('users')->num_rows();
+	}
 
 	/**
 	 * Inserting data
@@ -43,14 +57,14 @@ class Muser extends CI_Model {
 		$user = array(
 			'username' => $this->input->post('username'),
 			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-			'full_name' => $this->input->post('full_name'),
-			'user_email' => $this->input->post('email'),
-			'user_phone' => $this->input->post('phone'),
+			'fullname' => $this->input->post('full_name'),
+			'email' => $this->input->post('email'),
+			'phone' => $this->input->post('phone'),
 			'registered' => date('Y-m-d H:i:s'),
 			'role_id' => $this->input->post('role')
 		);
 
-		$this->db->insert('tb_users', $user);
+		$this->db->insert('users', $user);
 
 		if($this->db->affected_rows())
 		{
@@ -77,18 +91,18 @@ class Muser extends CI_Model {
 		$get = $this->get($param);
 
 		$user = array(
-			'full_name' => (!$this->input->post('full_name')) ? $get->full_name : $this->input->post('full_name'),
-			'user_email' => (!$this->input->post('email')) ? $get->user_email : $this->input->post('email'),
-			'user_phone' => (!$this->input->post('phone')) ? $get->user_phone : $this->input->post('phone'),
+			'fullname' => (!$this->input->post('full_name')) ? $get->fullname : $this->input->post('full_name'),
+			'email' => (!$this->input->post('email')) ? $get->email : $this->input->post('email'),
+			'phone' => (!$this->input->post('phone')) ? $get->phone : $this->input->post('phone'),
 			'role_id' => (!$this->input->post('role')) ? $get->role_id : $this->input->post('role')
 		);
 
-		$this->db->update('tb_users', $user, array('user_id' => $param));
+		$this->db->update('users', $user, array('user_ID' => $param));
 
 		if($this->db->affected_rows())
 		{
 			$this->template->alert(
-				' Users changes.', 
+				' User Updated.', 
 				array('type' => 'success','icon' => 'check')
 			);
 		} else {
@@ -109,7 +123,7 @@ class Muser extends CI_Model {
 	{
 		$get = $this->get($param);
 
-		$this->db->delete('tb_users', array('user_id' => $param));
+		$this->db->delete('users', array('user_ID' => $param));
 
 		$this->template->alert(
 			' Users deleted.', 
@@ -132,13 +146,13 @@ class Muser extends CI_Model {
 				$get = $this->get($value);
 
 				$user = array(
-					'full_name' => (!$this->input->post('full_name')[$key]) ? $get->full_name : $this->input->post('full_name')[$key],
-					'user_email' => (!$this->input->post('email')[$key]) ? $get->user_email : $this->input->post('email')[$key],
-					'user_phone' => (!$this->input->post('phone')[$key]) ? $get->user_phone : $this->input->post('phone')[$key],
+					'fullname' => (!$this->input->post('full_name')[$key]) ? $get->fullname : $this->input->post('full_name')[$key],
+					'email' => (!$this->input->post('email')[$key]) ? $get->email : $this->input->post('email')[$key],
+					'phone' => (!$this->input->post('phone')[$key]) ? $get->phone : $this->input->post('phone')[$key],
 					'role_id' => (!$this->input->post('role')[$key]) ? $get->role_id : $this->input->post('role')[$key]
 				);
 
-				$this->db->update('tb_users', $user, array('user_id' => $value));
+				$this->db->update('users', $user, array('user_ID' => $value));
 			}
 			$this->template->alert(
 				' Users changes.', 
@@ -163,7 +177,7 @@ class Muser extends CI_Model {
 		{
 			foreach ($this->input->post('users') as $key => $value) 
 			{
-				$this->db->delete('tb_users', array('user_id' => $value));
+				$this->db->delete('users', array('user_ID' => $value));
 			}
 			$this->template->alert(
 				' Users deleted.', 
@@ -185,17 +199,17 @@ class Muser extends CI_Model {
 	 **/
 	public function update_account()
 	{
-		$get = $this->get($this->session->userdata('user')->user_id);
+		$get = $this->get($this->session->userdata('user')->user_ID);
 
 		$old_pass = password_hash($this->input->post('old_pass'), PASSWORD_DEFAULT);
 		$new_pass = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
 
 		$user = array(
-			'username' => (!$this->input->post('username')) ? $get->username : $this->input->post('username'),
+			'username' => $this->input->post('username'),
 			'password' => (!$this->input->post('password')) ? $old_pass : $new_pass,
 		);
 
-		$this->db->update('tb_users', $user, array('user_id' => $get->user_id));
+		$this->db->update('users', $user, array('user_ID' => $get->user_ID));
 
 		if($this->db->affected_rows())
 		{
@@ -221,11 +235,11 @@ class Muser extends CI_Model {
 	{
 		if ($role == TRUE) 
 		{
-			$query = $this->db->query("SELECT role_id, role_name, description, role FROM tb_role_access WHERE role_id = ?", array($role));
+			$query = $this->db->query("SELECT role_id, role_name, description, role FROM user_role_access WHERE role_id = ?", array($role));
 
 		} 
 		else {
-			$query = $this->db->query("SELECT role_id, role_name, description, role FROM tb_role_access");
+			$query = $this->db->query("SELECT role_id, role_name, description, role FROM user_role_access");
 		}
 
 		return $query;
@@ -244,7 +258,7 @@ class Muser extends CI_Model {
 			'role' => json_encode($this->input->post('role')) 
 		);
 
-		$this->db->insert('tb_role_access', $data);
+		$this->db->insert('user_role_access', $data);
 
 		if($this->db->affected_rows())
 		{
@@ -273,7 +287,7 @@ class Muser extends CI_Model {
 			'role' => json_encode($this->input->post('role')) 
 		);
 
-		$this->db->update('tb_role_access', $data, array('role_id' => $param));
+		$this->db->update('user_role_access', $data, array('role_id' => $param));
 
 		if($this->db->affected_rows())
 		{
@@ -299,6 +313,28 @@ class Muser extends CI_Model {
 		$data = json_decode($json);
 		$role_value = $data[$module_number]->$obj;
 		return $role_value;
+	}
+
+	/**
+	 * Get data role (Convert to Array)
+	 *
+	 * @return string
+	 **/
+	public function getRole($json, $module_name = '')
+	{
+		$data = json_decode($json);
+		//$role_value = $data[$module_name];
+		foreach($data as $key => $value)
+		{
+			switch ($module_name) 
+			{
+				case $key:
+					if(is_array($value) == FALSE)
+						continue;
+					return $value;
+					break;
+			}
+		}
 	}
 
 	/**

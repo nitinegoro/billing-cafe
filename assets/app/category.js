@@ -1,24 +1,23 @@
 /*!
-* Module Master
-* Kumpulan javascript module Master
+* Category Crud
+* Kumpulan javascript module Report
 * @author Vicky Nitinrgoro <pkpvicky@gmail.com>
 * @package Jquery, Form Validation, Bootstraps JS,Bootraps timepicker
 * @see https://github.com/nitinegoro/billing-cafe
 */
 
 jQuery(function($) {
-	
-	$(".btn-print").printPage();
 
-	// modal delete user
-	$('.open-product-delete').click( function() {
+	// open delte payment
+	$('.open-category-delete').click( function() {
 		$('#modal-delete').modal('show');
-		$('#button-delete').attr('href', base_url + '/product/delete/' + $(this).data('id'));
+		$('#button-delete').attr('href', base_url + '/sell_category/delete/' + $(this).data('id'));
 	});
 
-	// open delete multiple
-	$('.product-delete-multiple').click( function() {
-		if( $('input[type=checkbox]').is(':checked') != '' ) {
+	// Delete Multiple Payments
+	$('.category-delete-multiple').click( function() {
+		if( $('input[type=checkbox]').is(':checked') != '' ) 
+		{
 			$('#modal-delete-multiple').modal('show');
 		} else {
 			$.notify({
@@ -33,7 +32,4 @@ jQuery(function($) {
 			});
 		}
 	});
-
-
-
 });

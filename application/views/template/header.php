@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" />
 		<link rel="stylesheet" href="<?php echo base_url('assets/font-awesome/4.5.0/css/font-awesome.min.css'); ?>" />
 		<!-- text fonts -->
-		<link rel="stylesheet" href="<?php echo base_url('assets/css/fonts.googleapis.com.css?family=PT+Sans|Varela+Round'); ?>" />
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/fonts.googleapis.com.css?family=PT+Sans|Varela+Round|Bree+Serif|Open+Sans:600i|Patua+One&amp;subset=latin-ext'); ?>" />
 		<!-- ace styles -->
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/ace.min.css'); ?>" class="ace-main-stylesheet" id="main-ace-style" />
 		<!--[if lte IE 9]>
@@ -28,9 +28,10 @@
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/daterangepicker.min.css'); ?>" />
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css'); ?>" />
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/pace.css'); ?>" />
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css'); ?>" />
 		<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
 		<style>
-			* { font-family: 'PT Sans', sans-serif; font-size: 1em; }
+			* { font-family: 'Patua One', cursive; font-size: 1em; }
 			span.menu-text, ul .submenu  { font-size:14px; }
 			small.text-red { font-family: 'Varela Round', sans-serif; font-size: 11px; }
 			.text-red { color: red; }
@@ -50,6 +51,10 @@
 			span.tprice { font-size: 15px; font-weight: bold; color: #52BD33; }
 			span.gray { color: #ABBAC3 }
 			.pointer { cursor: pointer; }
+			.btn-app > span { font-family: 'Patua One', cursive; font-size: 1em; }
+			.font-medium { font-size:1.2em; }
+			h4.modal-title { font-family: 'Patua One', cursive; font-size: 1.3em; font-weight: bold;  }
+			.footer-content { line-height: -20px; }
 		</style>
 <?php 
 /**

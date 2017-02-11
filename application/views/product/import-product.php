@@ -5,7 +5,7 @@
 	<?php echo form_open_multipart(site_url('product/set_import'), array('class' => 'form-horiontal')); ?>
 			<div class="form-group col-md-12" style="background-color: #F0F0F0; padding: 20px;">
 				<h5><i class="fa fa-info-circle"></i> Requirement</h5>
-				<p>- Must file extension .xlsx (Microsoft Excel 2017/2010)</p>
+				<p>- Must file extension .xlsx (Microsoft Excel 2007 - 2010)</p>
 				<p>- Download data frame <a href="">[HERE]</a></p>
 			</div>
 		  	<div class="form-group col-md-12" style="margin-top: 20px;">
