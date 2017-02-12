@@ -1,4 +1,4 @@
-console.log("%cHey, what are you doing?%c\nAre you a JavaScript developer? We want you! Call me 0822 21 420 420","font-family:sans-serif;font-size: 56px; color: #f18c02;text-shadow: 0 2px #d87d02; webkit-text-stroke: 1px #d87d02;","font-family:sans-serif;font-size:32px;font-weight:600;color:#158b83");
+console.log("%cHey, what are you doing?%c\nAre you a JavaScript developer? We want you! Call me 082 373 004 116","font-family:sans-serif;font-size: 56px; color: #f18c02;text-shadow: 0 2px #d87d02; webkit-text-stroke: 1px #d87d02;","font-family:sans-serif;font-size:32px;font-weight:600;color:#158b83");
 
 $(function() {
   var $progress = $('#load-progress');

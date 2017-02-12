@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" />
 		<link rel="stylesheet" href="<?php echo base_url('assets/font-awesome/4.5.0/css/font-awesome.min.css'); ?>" />
 		<!-- text fonts -->
-		<link rel="stylesheet" href="<?php echo base_url('assets/css/fonts.googleapis.com.css?family=PT+Sans|Varela+Round|Bree+Serif|Open+Sans:600i|Patua+One&amp;subset=latin-ext'); ?>" />
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/fonts.googleapis.com.css?family=PT+Sans|Varela+Round|Bree+Serif|Open+Sans:600i|Patua+One'); ?>" />
 		<!-- ace styles -->
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/ace.min.css'); ?>" class="ace-main-stylesheet" id="main-ace-style" />
 		<!--[if lte IE 9]>
@@ -74,6 +74,4 @@ if(isset($css) !== FALSE) : foreach($css as $file) : ?>
 		<![endif]-->
 		<!--[if !IE]> -->
 		<script src="<?php echo base_url('assets/js/jquery-2.1.4.min.js'); ?>"></script>
-		<!-- <![endif]-->
-		<script src="<?php echo base_url('assets/app/waktu.js') ?>"></script>
 	</head>

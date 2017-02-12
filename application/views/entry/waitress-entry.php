@@ -3,8 +3,8 @@
 		<div class="col-md-11 col-md-offset-2">
 			<p>
 				<label><i class="glyphicon glyphicon-stop green"></i> : </label> Order Bags 
-				<label><i class="glyphicon glyphicon-stop blue"></i> : </label> Available 
-				<label><i class="glyphicon glyphicon-stop red"></i> : </label> Unavailable
+				<label><i class="glyphicon glyphicon-stop blue"></i> : </label> Ready 
+				<label><i class="glyphicon glyphicon-stop red"></i> : </label> Already in Use
 			</p>
 		</div>
 		<div style="padding-left:50px; ">
@@ -17,11 +17,26 @@
 	 *
 	 **/
 	for($table =1; $table <= $this->app->get('table_count'); $table++) :
+
+		/**
+		 * Check Status Meja
+		 *
+		 * @param Integer (Nomor table)
+		 * @param String (status)
+		 **/
+		if($this->entry->table_check($table, 'pre')) :
 	?>
-		<a class="btn btn-round btn-primary" style="margin:5px;">
+		<a class="btn btn-round btn-danger" style="margin:5px;" data-table="<?php echo $table; ?>" data-toggle="modal" data-target="#modal-update-order">
 			<img src="<?php echo base_url('assets/img/table-icon.png'); ?>" alt=""><br><span>No. <?php echo $table; ?></span>
 		</a>
 	<?php  
+		else :
+	?>
+		<a id="select-table" class="btn btn-round btn-primary" style="margin:5px;" data-table="<?php echo $table; ?>">
+			<img src="<?php echo base_url('assets/img/table-icon.png'); ?>" alt=""><br><span>No. <?php echo $table; ?></span>
+		</a>
+	<?php
+		endif;
 	endfor;
 	?>
 		</div>
@@ -36,7 +51,7 @@
 				<tr>
 					<td colspan="2">
 						<span style="width:100%;" class="input-icon">
-							<input type="text" placeholder="Search ..." class="nav-search-input form-control"  />
+							<input id="search-product" type="text" placeholder="Search ..." class="nav-search-input form-control"  />
 							<i class="ace-icon fa fa-search nav-search-icon"></i>
 						</span>		
 					</td>
@@ -44,77 +59,47 @@
 			</thead>
 		</table>
 		<div class="scroll-product">
-		<table class="table table-hover table-bordered font-medium">
+		<table id="table-product-list" class="table table-hover table-bordered font-medium">
 			<tbody>
 	<?php  
 	/**
 	 * Loop Table From Options Table
 	 *
 	 **/
-	for($table =1; $table <= $this->app->get('table_count'); $table++) :
+	foreach($this->entry->get_product_items() as $row) :
 	?>
 				<tr>
-					<td class="show-details-btn pointer">Lorem ipsum dolor sit amet.</td>
-					<td class="text-center" width="150">Rp. 23,000</td>
+					<td id="select-product" class="show-details-btn pointer" data-product="<?php echo $row->item_ID; ?>" data-product-name="<?php echo $row->product_name; ?>">
+						<?php echo $row->product_name; ?>	
+					</td>
+					<td class="text-center" width="150">Rp. <?php echo number_format($row->price) ?></td>
 				</tr>
 	<?php  
-	endfor;
-	?>
+	endforeach;
+	?>			
 			</tbody>
 		</table>
 		</div>
 	</div>
 	<div class="col-md-4">
 		<div class="search-area well well-sm" style="min-height: 410px;">
-			<div class="search-filter-header bg-primary">
-				<h5 class="smaller no-margin-bottom">
-					<i class="ace-icon fa fa-plus white"></i> New Transaction 
-				</h5>
-			</div>
-			<div class="space-10"></div>
-			<table class="table table-striped table-bordered" style="margin-bottom: 0px;">
-				<tbody>
+			<div class="scroll-product">
+			<table id="table-cart" class="table table-hover table-bordered" style="margin-top: -30px;background-color: white">
+				<thead>
 					<tr>
-						<th colspan="2" class="text-center"> Table Nomber : 1 </th>
+						<th colspan="2" class="text-center"><span id="table-number"></span></th>
 					</tr>
-				</tbody>
-			</table>
-			<table class="table table-striped table-bordered" style="margin-bottom: 0px;">
-				<thead class="thin-border-bottom">
 					<tr>
-						<th class="text-center"> Items </th>
-						<th width="150" class="text-center"> Price </th>
+						<th class="text-center" style="color: #444">Items</th>
+						<th class="text-center" style="color: #444">Price</th>
 					</tr>
 				</thead>
-			</table>
-			<div class="scroll-item" style="background-color: white">
-			<table class="table table-hover table-bordered" style="margin-bottom: 0px;">
-				<tbody id="table-cart">
-	<?php  
-	/**
-	 * Loop Table From Options Table
-	 *
-	 **/
-	for($table =1; $table <= 0; $table++) :
-	?>
-				<tr>
-					<td class="show-details-btn pointer">Lorem ipsum dolor sit amet.</td>
-					<td class="text-center" width="150">Rp. 23,000</td>
-				</tr>
-	<?php  
-	endfor;
-	?>
-				</tbody>
+				<tbody> </tbody>
+				<tfoot>
+					<tr><th></th><th></th></tr>
+				</tfoot>
 			</table>
 			</div>
-			<table class="table table-striped table-bordered">
-				<tbody>
-					<tr>
-						<th><span class="pull-right">Total :</span> </th>
-						<td width="150"><span class="tprice">Rp. 0,00</span></td>
-					</tr>
-				</tbody>
-			</table>
 			<?php  
 			echo form_open(site_url('transaction/setbooking'), array('class' => 'form-horizontal'));
 			?>
@@ -139,28 +124,90 @@
 	</div>
 	</div>
 </div>
-<!-- 
-<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Trigger modal</a> -->
-<div class="modal animated fadeIn" id="modal-id" style="top:23%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
+<!-- Insert Table To cart -->
+<div class="modal animated fadeIn" id="modal-insert-table" style="top:20%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
-				<h4 class="modal-title">Lorem ipsum dolor sit amet, consectetur adipisicing.</h4>
-			</div>
-			<div class="modal-body">
-				<label for="quantity">Quantity :</label>
-				<input type="number" name="quantity" class="form-control input-lg" value="1" autofocus="">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Select Table Number <span id="modal-table-number"></span> ?</h4>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-				<button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+				<button type="button" class="btn btn-round btn-default pull-left" data-dismiss="modal"><i class="fa fa-times pull-left"></i> Close Dialog</button>
+				<button type="button" id="insert-table" class="btn btn-round btn-primary pull-right"><i class="fa fa-check pull-left"></i> Select Table</button>
 			</div>
 		</div>
 	</div>
 </div>
+<!-- Destroy Cart Dialog -->
+<div class="modal animated fadeIn" id="modal-cancel-order" style="top:20%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content bg-delete">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Cancel Order?</h4>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-round btn-default pull-left" data-dismiss="modal"><i class="fa fa-times pull-left"></i> Cancel</button>
+				<button type="button" id="yes-cancel-order" class="btn btn-round btn-danger pull-right"><i class="fa fa-check pull-left"></i> Yes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Dialog Product from List  -->
+<div class="modal animated fadeIn" id="modal-product-set-quantity" style="top:23%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-sm">
+	<?php echo form_open(site_url(''), array('id' => 'form-insert-product')); ?>
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<h4 class="modal-title" id="modal-title-product"></h4>
+			</div>
+			<div class="modal-body">
+				<label for="quantity">Quantity :</label>
+				<input id="input-set-quntity" type="number" name="quantity" class="form-control input-lg" value="1" autofocus="">
+				<input id="input-set-product" type="hidden" name="product">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+				<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Insert</button>
+			</div>
+		</div>
+	<?php form_close(); ?>
+	</div>
+</div>
+
+<!-- Dialog Product from Cart  -->
+<div class="modal animated fadeIn" id="modal-product-set-update" style="top:23%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-sm">
+	<?php echo form_open(site_url(''), array('id' => 'form-update-product')); ?>
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<h4 class="modal-title" id="modal-title-product"></h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+				<label for="quantity">Quantity :</label>
+				<input id="input-update-quntity" type="number" name="set_quantity" class="form-control input-lg" width="50" value="" autofocus="">
+				<input id="input-update-product" type="hidden" name="product">	
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+				<button type="button" id="button-delete-cart" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> Delete</button>
+				<button type="submit" id="button-update-cart" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Update</button>
+			</div>
+		</div>
+	<?php form_close(); ?>
+	</div>
+</div>
+
+
 <!-- 
 <a class="btn btn-primary" data-toggle="modal" href='#modal-update'>Trigger modal</a> -->
-<div class="modal animated fadeIn" id="modal-update" style="top:20%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
+<div class="modal animated fadeIn" id="modal-update-order" style="top:20%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
@@ -175,3 +222,4 @@
 		</div>
 	</div>
 </div>
+

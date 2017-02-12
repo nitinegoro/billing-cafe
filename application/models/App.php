@@ -59,28 +59,6 @@ class App extends CI_Model
 		}
 	}
 
-	/**
-	 * Ambil data privileges
-	 *
-	 * @return Boolean (string)
-	 **/
-	public function role($module_number = 0, $obj = 'menu')
-	{
-		$user_id = $this->session->userdata('user')->user_id;
-
-		// biar greget select data role_access lagi
-		$json = $this->db->query("
-			SELECT tb_role_access.role, tb_users.user_id FROM tb_users 
-			LEFT JOIN tb_role_access ON tb_users.role_id = tb_role_access.role_id 
-			WHERE tb_users.user_id = ?", array($user_id))->row('role');
-
-		$data = json_decode($json);
-
-		// pilih data yang akan diambil
-		$role_value = $data[$module_number]->$obj;
-		return $role_value;	
-	}
-
 
 	/**
 	 * Get data Cashier
@@ -89,8 +67,7 @@ class App extends CI_Model
 	 **/
 	public function cashier()
 	{
-		$query = $this->db->query("SELECT * FROM tb_users ORDER BY user_id DESC");
-		return $query->result();
+		return $this->db->get("users")->result();
 	}
 
 }
