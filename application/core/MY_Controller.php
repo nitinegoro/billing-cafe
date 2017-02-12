@@ -34,6 +34,7 @@ class Application extends MY_Controller
 		if($this->session->has_userdata('is_login')==FALSE)
 			redirect('login?from_url='.current_url());
 	}
+
 }
 
 /* End of file MY_Controller.php */

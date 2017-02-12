@@ -192,6 +192,10 @@ function show_alert(message, type, icon)
 }
 
 
+shortcut.add("ESC", function() {
+	$('div.modal').modal('hide');
+});
+
 
 
 /*<!--function bersama-->*/

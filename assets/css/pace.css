@@ -39,10 +39,10 @@
   display: block;
   position: fixed;
   z-index: 2000;
-  top: 15px;
+  top: 35px;
   right: 15px;
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   border: solid 2px transparent;
   border-top-color: #29d;
   border-left-color: #29d;

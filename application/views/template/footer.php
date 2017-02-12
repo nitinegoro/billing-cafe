@@ -58,6 +58,7 @@
 		<script src="<?php echo base_url('assets/js/bootstrap-datepicker.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/js/bootstrap-timepicker.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/js/bootstrap-notify.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/shortcut.js'); ?>"></script>
 		<script data-pace-options='{ "elements": { "selectors": ["body"] }, "startOnPageLoad": true, "ajax": true }' src="<?php echo base_url('assets/js/pace.min.js'); ?>"></script>
     	<!-- <script type="text/javascript" src="<?php echo base_url('assets/js/ajaxFileUpload.js'); ?>"></script> -->
 		<script src="<?php echo base_url('assets/js/jquery.dataTables.min.js'); ?>"></script>

@@ -56,21 +56,33 @@ class Entry extends Application
 	}
 
 	/**
+	 * Check Entry Table
+	 *
+	 * @param Integer (table Number)
+	 * @return string
+	 **/
+	public function table_check($param = '')
+	{
+		if($this->entry->table_check($param) ==  FALSE)
+		{
+			$output = array('status' => TRUE, 'table' => $param);
+		} else {
+			$output = array('status' => FALSE, 'table' => $param);
+		}
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+
+	/**
 	 * masukkan Nomor table Ke kerangjang Order
 	 *
 	 * @return Integer (Table Number) 
 	 **/
 	public function insert_table($param = 0)
 	{
-		$order = array(
-			'order' => array(
-				'table_number' => "Table Number : ".$param
-			), 
-		);
+		$this->entry->insert( $param );
 
-		$this->session->set_userdata( $order );
-
-		$this->output->set_content_type('application/json')->set_output(json_encode(array('status' => TRUE, 'table_number' => "Table Number : ".$param)));
+		$this->output->set_content_type('application/json')->set_output(json_encode(array('status' => TRUE)));
 	}
 
 	/**
@@ -81,16 +93,7 @@ class Entry extends Application
 	 **/
 	public function add_to_cart($param = 0)
 	{
-		$get = $this->entry->product_detail($param);
-
-		$data = array(
-			'id'      => $get->item_ID,
-			'qty'     => $this->input->post('quantity'),
-			'price'   => $get->price,
-			'name'    => $get->product_name,
-		);
-
-		$this->cart->insert($data);
+		$this->entry->insert_item($param);
 	}
 
 	/**
@@ -101,12 +104,7 @@ class Entry extends Application
 	 **/
 	public function update_cart($param = 0)
 	{
-		$data = array(
-			'rowid'      => $param,
-			'qty'     => $this->input->post('quantity'),
-		);
-
-		$this->cart->update($data);
+		$this->entry->update_item($param);
 	}
 
 	/**
@@ -117,7 +115,7 @@ class Entry extends Application
 	 **/
 	public function delete_from_cart($param = 0)
 	{
-		$this->cart->remove($param);
+		$this->entry->delete_item($param);
 	}
 
 	/**
@@ -127,24 +125,38 @@ class Entry extends Application
 	 **/
 	public function get_order()
 	{
-		$output = array(
-			'status' => TRUE,
-			'table_number' => "Table Number : ".$this->session->userdata('order')['table_number'],
-			'data' => array(),
-			'total_heading' => '<span class="pull-right">Total :</span>',
-		);
+		$get = $this->entry->get();
 
-		$total = 0;
-		foreach ($this->cart->contents() as $row) 
+		if($this->entry->get()) 
 		{
-			$output['data'][] = array(
-				'<span class="show-details-btn pointer" data-id="'.$row['rowid'].'" data-product-name="'.$row['name'].'" data-qty="'.$row['qty'].'">'.$row['name']."<span class='text-primary'>(x".$row['qty'].")</span></span>",
-				"Rp.".number_format($row['subtotal'])
+			$output = array(
+				'status' => TRUE,
+				'table_number' => "Table Number : ".$get->table_number,
+				'data' => array(),
+				'total_heading' => '<span class="pull-right">Total :</span>',
 			);
-			$total += $row['subtotal'];
+
+			$total = 0;
+			foreach ($this->entry->get_order_items() as $row) 
+			{
+				$output['data'][] = array(
+					'<span class="show-details-btn pointer" data-id="'.$row->order_item_ID.'" data-product-name="'.$row->product_name.'" data-qty="'.$row->quantity.'">'.$row->product_name."<span class='text-primary'>(x".$row->quantity.")</span></span>",
+					"Rp.".number_format($row->subtotal)
+				);
+
+				$total += $row->subtotal;
+			}
+
+			$output['total'] = '<span class="tprice">Rp.'.number_format($total) . '</span>';
+		} else {
+			$output = array(
+				'status' => TRUE,
+				'table_number' => '',
+				'data' => array(),
+				'total_heading' => '<span class="pull-right">Total :</span>',
+			);
 		}
 
-		$output['total'] = '<span class="tprice">Rp.'.number_format($total) . '</span>';
 
 		$this->output->set_content_type('application/json')->set_output(json_encode($output));
 	}
@@ -157,8 +169,7 @@ class Entry extends Application
 	 **/
 	public function delete_order($param = 0)
 	{
-		$this->session->unset_userdata('order');
-		$this->cart->destroy();
+		$this->entry->delete($param);
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('status' => TRUE, 'message' => "Menu order canceled.")));
 	}
 

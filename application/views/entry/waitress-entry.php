@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-4 scroll">
+	<div class="col-md-4">
 		<div class="col-md-11 col-md-offset-2">
 			<p>
 				<label><i class="glyphicon glyphicon-stop green"></i> : </label> Order Bags 
@@ -7,7 +7,7 @@
 				<label><i class="glyphicon glyphicon-stop red"></i> : </label> Already in Use
 			</p>
 		</div>
-		<div style="padding-left:50px; ">
+		<div class="scroll" style="padding-left:50px;" id="block-list-table">
 		<a class="btn btn-round btn-success" style="margin:5px;">
 			<img src="<?php echo base_url('assets/img/bags-icon.png'); ?>" alt=""><br> <span>Order</span>
 		</a>
@@ -26,7 +26,7 @@
 		 **/
 		if($this->entry->table_check($table, 'pre')) :
 	?>
-		<a class="btn btn-round btn-danger" style="margin:5px;" data-table="<?php echo $table; ?>" data-toggle="modal" data-target="#modal-update-order">
+		<a id="select-table-use" class="btn btn-round btn-danger" style="margin:5px;" data-table="<?php echo $table; ?>">
 			<img src="<?php echo base_url('assets/img/table-icon.png'); ?>" alt=""><br><span>No. <?php echo $table; ?></span>
 		</a>
 	<?php  
@@ -109,11 +109,11 @@
 			</div>
 			<div class="hr hr-dotted col-md-12"></div>
 			<div class="text-center">
-				<button type="reset" id="button-reset" class="btn btn-danger btn-round" style="padding:10px; width:40%; font-size: 1.2em;">
-					<i class="ace-icon fa fa-remove"></i> Delete
+				<button type="reset" id="button-reset" class="btn btn-block btn-danger btn-round" style="width:38%; font-size: 1.2em;">
+					<i class="ace-icon fa fa-remove"></i> Delete (F3)
 				</button>
-				<button type="submit" class="btn btn-success btn-round" style="padding:10px; width:40%; font-size: 1.2em;">
-					<i class="ace-icon glyphicon glyphicon-floppy-saved"></i> Save Order
+				<button type="submit" class="btn btn-block btn-success btn-round" style="margin-top: 0px; width:46%; font-size: 1.2em;">
+					<i class="ace-icon glyphicon glyphicon-floppy-saved"></i> Save & Print (F4)
 				</button>
 			</div>
 			<?php  
@@ -207,12 +207,12 @@
 
 <!-- 
 <a class="btn btn-primary" data-toggle="modal" href='#modal-update'>Trigger modal</a> -->
-<div class="modal animated fadeIn" id="modal-update-order" style="top:20%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
+<div class="modal animated fadeIn" id="modal-table-use" style="top:20%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header bg-primary">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Table Number : 4</h4>
+				<h4 class="modal-title">Table <span id="modal-table-number"></span> in used, select for actions!</h4>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-lg btn-block btn-round btn-success"><i class="fa fa-edit pull-left"></i> Update Cart</button>
