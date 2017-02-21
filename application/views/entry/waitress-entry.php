@@ -2,15 +2,12 @@
 	<div class="col-md-4">
 		<div class="col-md-11 col-md-offset-2">
 			<p>
-				<label><i class="glyphicon glyphicon-stop green"></i> : </label> Order Bags 
+				<label><i class="fa fa-refresh"></i> : </label> F5 (Refresh)
 				<label><i class="glyphicon glyphicon-stop blue"></i> : </label> Ready 
 				<label><i class="glyphicon glyphicon-stop red"></i> : </label> Already in Use
 			</p>
 		</div>
 		<div class="scroll" style="padding-left:50px;" id="block-list-table">
-		<a class="btn btn-round btn-success" style="margin:5px;">
-			<img src="<?php echo base_url('assets/img/bags-icon.png'); ?>" alt=""><br> <span>Order</span>
-		</a>
 	<?php  
 	/**
 	 * Loop Table From Options Table
@@ -24,9 +21,10 @@
 		 * @param Integer (Nomor table)
 		 * @param String (status)
 		 **/
-		if($this->entry->table_check($table, 'pre')) :
+		if($this->entry->table_check($table, 'pre')->num_rows()) :
+			$order = $this->entry->table_check($table, 'pre')->row();
 	?>
-		<a id="select-table-use" class="btn btn-round btn-danger" style="margin:5px;" data-table="<?php echo $table; ?>">
+		<a id="select-table-use" class="btn btn-round btn-danger" style="margin:5px;" data-table="<?php echo $table; ?>" data-order="<?php echo $order->order_ID; ?>">
 			<img src="<?php echo base_url('assets/img/table-icon.png'); ?>" alt=""><br><span>No. <?php echo $table; ?></span>
 		</a>
 	<?php  
@@ -101,19 +99,19 @@
 			</table>
 			</div>
 			<?php  
-			echo form_open(site_url('transaction/setbooking'), array('class' => 'form-horizontal'));
+			echo form_open('', array('class' => 'form-horizontal', 'id' => 'form-order-cart'));
 			?>
 			<div class="col-md-12">
-				<label for="request" class="control-label">Extra Request (Optional)</label>
-				<textarea name="request" id="input-optional" class="form-control input-sm" rows="3"></textarea>
+				<label for="set_request" class="control-label">Extra Request (Optional)</label>
+				<textarea name="set_request" id="input-optional" class="form-control input-sm" rows="3"></textarea>
 			</div>
 			<div class="hr hr-dotted col-md-12"></div>
 			<div class="text-center">
 				<button type="reset" id="button-reset" class="btn btn-block btn-danger btn-round" style="width:38%; font-size: 1.2em;">
 					<i class="ace-icon fa fa-remove"></i> Delete (F3)
 				</button>
-				<button type="submit" class="btn btn-block btn-success btn-round" style="margin-top: 0px; width:46%; font-size: 1.2em;">
-					<i class="ace-icon glyphicon glyphicon-floppy-saved"></i> Save & Print (F4)
+				<button type="button" id="button-save-order" class="btn btn-block btn-success btn-round" style="margin-top: 0px; width:46%; font-size: 1.2em;">
+					<i class="ace-icon glyphicon glyphicon-floppy-saved"></i> Save (F4)
 				</button>
 			</div>
 			<?php  
@@ -166,7 +164,7 @@
 			<div class="modal-body">
 				<label for="quantity">Quantity :</label>
 				<input id="input-set-quntity" type="number" name="quantity" class="form-control input-lg" value="1" autofocus="">
-				<input id="input-set-product" type="hidden" name="product">
+				<input id="input-set-product" type="hidden" name="product"> 
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
@@ -186,18 +184,14 @@
 				<h4 class="modal-title" id="modal-title-product"></h4>
 			</div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-12">
 				<label for="quantity">Quantity :</label>
 				<input id="input-update-quntity" type="number" name="set_quantity" class="form-control input-lg" width="50" value="" autofocus="">
 				<input id="input-update-product" type="hidden" name="product">	
-					</div>
-				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
 				<button type="button" id="button-delete-cart" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> Delete</button>
-				<button type="submit" id="button-update-cart" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Update</button>
+				<button type="button" id="button-update-cart" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Update</button>
 			</div>
 		</div>
 	<?php form_close(); ?>
@@ -205,8 +199,7 @@
 </div>
 
 
-<!-- 
-<a class="btn btn-primary" data-toggle="modal" href='#modal-update'>Trigger modal</a> -->
+<!-- Modal Select Table Use  -->
 <div class="modal animated fadeIn" id="modal-table-use" style="top:20%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
@@ -215,9 +208,22 @@
 				<h4 class="modal-title">Table <span id="modal-table-number"></span> in used, select for actions!</h4>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-lg btn-block btn-round btn-success"><i class="fa fa-edit pull-left"></i> Update Cart</button>
+				<button type="button" id="update-table-order" class="btn btn-lg btn-block btn-round btn-success"><i class="fa fa-edit pull-left"></i> Update Cart</button>
 				<button type="button" class="btn btn-lg btn-block btn-round btn-primary"><i class="fa fa-exchange pull-left"></i> Join Table</button>
 				<button type="button" class="btn btn-lg btn-block btn-round btn-default" data-dismiss="modal"><i class="fa fa-undo pull-left"></i> Close Dialog</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Modal Dialog Print Or Close  -->
+<div class="modal animated fadeIn" id="modal-print" style="top:20%;" tabindex="-1" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-footer">
+				<a href="" class="btn btn-lg btn-round btn-primary btn-print pull-right"> Print</a>
+				<button type="button" class="btn btn-lg btn-close btn-round btn-default pull-left" data-dismiss="modal"> Close</button>
 			</div>
 		</div>
 	</div>

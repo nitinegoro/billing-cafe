@@ -20,6 +20,7 @@ class Mentry extends CI_Model
 		$this->user = $this->session->userdata('ID_user');
 	}
 
+
 	/**
 	 * Get Entry data
 	 *
@@ -52,6 +53,12 @@ class Mentry extends CI_Model
 		} else {
 			$this->db->insert('pre_order', $order);
 		}
+	}
+
+	public function update($param = 0)
+	{		
+		$this->db->update('pre_order', array('status' => 'pre'), array('status' => 'entry', 'user_ID' => $this->user));
+		$this->db->update('pre_order', array('status' => 'entry'), array('order_ID' => $param, 'user_ID' => $this->user));
 	}
 
 	/**
@@ -95,7 +102,7 @@ class Mentry extends CI_Model
 	}
 
 	/**
-	 * Inesert Item To Order Entry
+	 * Insert Item To Order Entry
 	 *
 	 * @param Integer (item in order)
 	 * @var string
@@ -104,11 +111,11 @@ class Mentry extends CI_Model
 	{
 		$order = $this->get();
 
-		$item = $this->product_detail($param);
+		$item = $this->get_item($param);
 
 		$in = $this->check_item($param, $order->order_ID);
 
-		$quantity = ($this->input->post('quantity'));
+		$quantity = $this->input->post('quantity');
 
 		$data = array(
 			'quantity' => $quantity,
@@ -116,6 +123,21 @@ class Mentry extends CI_Model
 		);
 
 		$this->db->update('order_items', $data, array('order_item_ID' => $param));
+	}
+
+	/**
+	 * Save And Update status menjadi 'pre'
+	 *
+	 *
+	 * @var string
+	 **/
+	public function save()
+	{
+		$order = $this->get();
+
+		$this->db->update('pre_order', array('note' => $this->input->post('note'), 'status' => 'pre'), array('order_ID' => $order->order_ID));
+
+		return $order->order_ID;
 	}
 
 	/**
@@ -174,11 +196,17 @@ class Mentry extends CI_Model
 		return $this->db->get_where('product_item', array('item_ID' => $param))->row();
 	}
 
+	public function get_item($param = 0)
+	{
+		//$this->db->join('product_item', 'product_item.item_ID = order_items.product_item_ID', 'left');
+		return $this->db->get_where('order_items', array('order_item_ID' => $param))->row();
+	}
+
 	public function table_check($param = 0, $status = 'entry')
 	{
 		$query = $this->db->get_where('pre_order', array('user_ID' => $this->user,'table_number' => $param, 'status' => $status));
 
-		return $query->num_rows();
+		return $query;
 	}
 }
 

@@ -131,7 +131,7 @@ jQuery(function($) {
 
     $('#table-cart tbody').on( 'click', 'span.show-details-btn', function () 
     {
-    	var product = $(this).data('id');
+    	var item = $(this).data('id');
 
     	var product_name = $(this).data('product-name');
 
@@ -141,21 +141,17 @@ jQuery(function($) {
 		
 		$('h4#modal-title-product').html(product_name);
 
-		$("input#input-update-product").val(product);
+		$("input#input-update-product").val(item);
 
 		$("input#input-update-quntity").val(quantity).setCursorToTextEnd();
        
 		/* Update Items From Cart */
         $('button#button-update-cart').click( function(event) 
         {
-		  	event.preventDefault();
-
 		    var update_quantity = $("input[name='set_quantity']").val();
-		 	
-		  	var update_cart = $.post( base_url + '/entry/update_cart/' + product, { quantity: update_quantity } );
 
 		  	// Put the results in a div
-		  	update_cart.done(function( data ) 
+		  	$.post( base_url + '/entry/update_cart/' + item, { quantity: update_quantity } ).done(function( data ) 
 		  	{
 		    	$('div#modal-product-set-update').modal('hide');
 		    	table_items.ajax.reload();
@@ -166,7 +162,7 @@ jQuery(function($) {
 		{
 		    var update_quantity = $("input[name='set_quantity']").val();
 		 	
-		  	var update_cart = $.post( base_url + '/entry/update_cart/' + product, { quantity: update_quantity } );
+		  	var update_cart = $.post( base_url + '/entry/update_cart/' + item, { quantity: update_quantity } );
 
 		  	// Put the results in a div
 		  	update_cart.done(function( data ) 
@@ -181,10 +177,10 @@ jQuery(function($) {
         /* Delete Item From cart */
         $('button#button-delete-cart').click(function() 
         {
-		  	var update_cart = $.get( base_url + '/entry/delete_from_cart/' + product);
+		  	var delete_item = $.get( base_url + '/entry/delete_from_cart/' + item);
 
 		  	// Put the results in a div
-		  	update_cart.done(function( data ) 
+		  	delete_item.done(function( data ) 
 		  	{
 		    	$('div#modal-product-set-update').modal('hide');
 		    	table_items.ajax.reload();
@@ -276,7 +272,7 @@ jQuery(function($) {
 	  	event.preventDefault();
 	  	var $form = $( this ),
 	    	set_quantity = $form.find("input[name='quantity']").val(),
-	    	product = $form.find("input[name='product']").val();
+	    	product = $form.find("input[name='product']").val();	
 	 
 	  	var add_cart = $.post( base_url + '/entry/add_to_cart/' + product, { quantity: set_quantity } );
 	 
@@ -307,12 +303,20 @@ jQuery(function($) {
 	{
 		var table = $(this).data('table');
 
+		var order = $(this).data('order');
+
 		$('span#modal-table-number').html(table);
 			
 		$('div#modal-table-use').modal('show');
 
-		alert("Update Table");
+		$('button#update-table-order').click( function() 
+		{
+			$.get( base_url + "/entry/update_table/" + order);
 
+			$('div#modal-table-use').modal('hide');
+
+			table_items.ajax.reload();
+		});
 	});
 
 
@@ -351,10 +355,55 @@ jQuery(function($) {
 
 		$('button#yes-cancel-order').click( function() 
 		{
-			delete_order();
+			$(this).delete_order();
 			table_items.ajax.reload();
 		});
 	});
+
+	/* Saving Data Order */
+	$('button#button-save-order').click ( function(event) 
+	{
+
+		var table_check = $.get( base_url + "/entry/check_order_table");
+
+		table_check.done( function(data) 
+		{
+			if(data.status === true)
+			{
+			   	var set_request = $("textarea[name='set_request']").val();	
+			 
+			  	var saving = $.post( base_url + '/entry/save_order_table/', { note: set_request } );
+
+				saving.done( function(res) 
+				{
+					$('div#modal-print').modal('show');
+
+					$('.btn-print, .btn-close').click( function() {
+						$('div#modal-print').modal('hide');
+						table_items.ajax.reload();
+					});
+				});
+
+			}  else {
+				$.notify({
+					title: '<strong><i class="fa fa-warning"></i> Warning!</strong><br>',
+					message: "Please select table number to order."
+				},{ 
+					type: 'warning',
+					animate: {
+						enter: 'animated bounce',
+						exit: 'animated bounceOut'
+					},
+					placement: {
+						from: "top",
+						align: "center"
+					},
+				});
+			}
+		});
+	});
+
+
 
 	// modal delete user
 	$('.scroll').ace_scroll({

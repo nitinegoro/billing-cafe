@@ -63,7 +63,7 @@ class Entry extends Application
 	 **/
 	public function table_check($param = '')
 	{
-		if($this->entry->table_check($param) ==  FALSE)
+		if($this->entry->table_check($param)->num_rows() ==  FALSE)
 		{
 			$output = array('status' => TRUE, 'table' => $param);
 		} else {
@@ -76,11 +76,23 @@ class Entry extends Application
 	/**
 	 * masukkan Nomor table Ke kerangjang Order
 	 *
-	 * @return Integer (Table Number) 
+	 * @param Integer (Table Number) 
 	 **/
 	public function insert_table($param = 0)
 	{
 		$this->entry->insert( $param );
+
+		$this->output->set_content_type('application/json')->set_output(json_encode(array('status' => TRUE)));
+	}
+
+	/**
+	 * Buka Kembali table ke Kerabjang Order
+	 *
+	  * @param Integer (Table Number) 
+	 **/
+	public function update_table($param = 0)
+	{
+		$this->entry->update( $param );
 
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('status' => TRUE)));
 	}
@@ -119,6 +131,34 @@ class Entry extends Application
 	}
 
 	/**
+	 * Check Keranjang 
+	 * Kosong apa enggak
+	 *
+	 * @return string
+	 **/
+	public function check_order_table()
+	{
+		if($this->entry->get()) 
+		{
+			$output = array('status' => true );
+		} else {
+			$output = array('status' => false );
+		}
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($output));
+	}
+
+	/**
+	 * Saving Order Table
+	 *
+	 * @return string
+	 **/
+	public function save_order_table()
+	{
+		$this->entry->save();
+	}
+
+	/**
 	 * Showing Order Cart Data
 	 *
 	 * @return string
@@ -154,6 +194,7 @@ class Entry extends Application
 				'table_number' => '',
 				'data' => array(),
 				'total_heading' => '<span class="pull-right">Total :</span>',
+				'total' => '<span class="tprice">Rp.'.number_format(0) . '</span>'
 			);
 		}
 

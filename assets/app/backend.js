@@ -158,7 +158,7 @@ jQuery(function($) {
 		//console.log($(this).data('ace_input_files'));
 	});
 
-
+	$(".btn-print").printPage();
 
 });
 
