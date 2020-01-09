@@ -7,8 +7,3 @@ membantu kebutuhan marketing. Kenali semua fitur lebih dalam untuk membantu meng
 ### Requirements
 - Thermal Printer 5mm
 - 3 Basic PC (Waitress, Cashier, Supervisor or Owner)
-
-### Demo Request Call Me 
-:phone:  082 373 004 116 (Vicky Nitinegoro)
-
-:envelope: pkpvicky@gmail.com
